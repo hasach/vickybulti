@@ -1,0 +1,201 @@
+ 1) install git 
+#apt-get update 
+#apt-get install git-core
+
+Three stages on repository are 
+>> working directory : your current directory
+>> staged area ( index) : files to be commited
+>> history : last commited stage
+
+2) Adding the directory and create it the repository
+#mkdir vishal-repo 
+#cd vishal-repo
+#vim file1 
+#git init 
+
+
+3) Perform a simple administration task to setup username and email.
+this is useful to track the commit made by which user
+3git config --global user.name " vishal saini"
+#git config --global user.email "vishal@ap2v.com"
+#git config --list (to display the information)
+
+you can use "git config --local" of individual repo
+
+
+4) to move the file into staging area
+#git add filename
+or
+#git add . ( for all the files inside the directory) 
+to checkt the status 
+#git status 
+
+5) To commit the changes  
+# git commit -m " add the new file"
+save the commit with SHA1 hash of 40 characters 
+
+6) To see the information 
+#git log
+
+
+7)To check the status and add another file
+#vim f2
+#vim f1
+#git status
+The output shows one file "f2" as untracked and another file "f1" as modified.
+
+
+8)To check the difference between working directory and 
+staging area 
+#git diff
+
+
+9)Now add the files in the staging area
+#git add .
+#git diff --staged
+this shows the difference between the last commit and 
+last changed file
+
+
+10) Do the commit for both the files 
+#git commit -m " add f2 and  edit f1"
+
+11) git log to see the status 
+#git log 
+#git log -p to show the preview 
+
+
+12)To remove the file from working directory and from staged area
+#git rm  f2 
+#git status 
+#git commit -m "remove commit"
+#git log
+
+*note : git commit without -m will open default editor to do the multiline commit's
+
+13)To perform the checkout, let change the f1 file with some boges information 
+#vi f1
+Don't add the file into staging area, rather run the command to see the difference
+#git diff
+you will see boges changes, to rollback to the last staged file 
+#git checkout -- f1 
+
+14)lets undo staged file 
+change the file f1
+#vim f1 
+#git diff >> show the difference 
+#git add f1 
+Now the working tree and staged file are same but not the commit, to check 
+#get diff --staged 
+
+to change the file to the last commit
+#git reset HEAD f1
+#git checkout -- f1 
+
+
+15)To restore the deleted file
+#git log
+check the last commit where the file is added and run the following command
+#git checkout $$$$$ -- filename
+i.e. git checkout 9ddf3 -- f2 
+#ls 
+
+Better work is to checkout commit in another branch 
+# git checkout -b test-branch 56a4e5c08
+
+...do your thing...
+
+$ git checkout master
+$ git branch -d test-branch
+
+
+16)You can also use .gitignore file to ignore or untrack certain files from git
+#vim abc.py
+#mkdir a1
+#touch a1/log1.log
+#touch a1/log2.log
+
+#git status >> will show all these files as untracked
+#vim .gitignore0be6186043db1bb54f962023bd39b484b3dcf510
+ >> *.pyc
+ >> a1/
+
+add and commit this .gitignore file so that git will safely ignoring ur logs and pyc file.
+#git add .gitignore
+#git commit -m "adding .gitignore file"
+
+
+17)Branching is the concept of designing and running multiple codes copy for the same setup.
+#git branch ggn
+#git branch noida
+#git branch >> to list all the branches.
+# git log --all --decorate  --oneline --graph
+
+18)checkout one branch
+#git checkout ggn
+modify the f1 file and stage and commit it 
+#vi f1 
+#git commit -a -m " new commit in ggn branch"
+
+19)if you checkout another branch, old data will reflect
+#git checkout noida 
+#cat f1
+#vim f1 
+#git commit -a -m " new commit in noida branch"
+
+20)check the status 
+#git log --all --decorate --oneline --graph
+
+21)It's time to merge both branches into the master branch
+Two method
+	> fast forward merge .. when both master and ggn branch are directly connected to each other
+	> 3-way merge .. when the merge is moved into another branches
+
+#git checkout master
+#git diff master..ggn >> to see the differnce between two branches
+#git merge ggn  >> to merge the branch in the master branch
+#git branch --merged >> to see the merged branches
+#git branch -d ggn >> to delete the branch after merging it into master.
+
+
+22) Create account in github and create a new repository inside it.
+To clone the repository on your local laptop command is
+git clone  https://github.com/vickybulti/vishalsaini.git
+git remote >> to see all our remote, default one is origin
+git log --all --decorate --online --graph >> to check the commit history
+origin/master is remote tracking branch which telling us what master branch looks at remote origin
+origin/master and origin/head and master pointing to same commit meaning everything is in sync on
+both local and remote branches.
+
+
+
+23) Git fetch.
+Create new commit on github by adding new file and commit it.
+2 commit at origin and 1 commit on local system.
+to fetch
+git fetch origin >> will only fetch the info and will not update any files on localsystem.
+to check 
+git status  >>> clear error about two different commit count on local and remote origin
+git log --all --decorate --online --graph
+
+Have to merge the origin/master to local master.
+git merge origin/master
+
+
+24) to push data from local repo to remote origin
+modify some data in file.
+#vi filename
+#git add filename
+#git commit -m " new data added in file"
+#git push 	origin	 master
+          (remotename) (branchname)
+
+
+
+
+
+
+
+
+
+
